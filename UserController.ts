@@ -1,8 +1,8 @@
 import {Controller, Param, Body, Get, Post, Put, Delete, QueryParam, BodyParam, ContentType} from 'routing-controllers';
-import {OpenAPI} from "routing-controllers-openapi";
-import {IsBoolean, IsOptional, IsPositive} from "class-validator";
+import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
+import {IsBoolean, IsNotEmpty, IsOptional, IsPositive} from "class-validator";
 
-class UserBody {
+export class UserBody {
     @IsOptional()
     @IsPositive()
     limit?: number;
@@ -40,6 +40,7 @@ export class UserController {
 
     @Put('/users/:id')
     @ContentType("application/json")
+    @ResponseSchema(UserBody)
     async put3334(@Param('id') id: number,
         @BodyParam("user", {
             required: true,

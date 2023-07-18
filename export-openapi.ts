@@ -1,6 +1,6 @@
 import { getMetadataArgsStorage } from 'routing-controllers'
 import { routingControllersToSpec } from 'routing-controllers-openapi'
-import {UserController} from "./UserController";
+import {UserBody, UserController} from "./UserController";
 import * as fs from "fs";
 import YAML from 'yaml'
 
@@ -10,6 +10,8 @@ const specObj = routingControllersToSpec(storage, {
         UserController
     ]
 })
+
+console.log(specObj);
 
 fs.writeFileSync('openapi.yaml', YAML.stringify(specObj));
 

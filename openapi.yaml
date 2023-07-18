@@ -59,7 +59,7 @@ paths:
         - User
       description: Fucking fuck
     put:
-      operationId: UserController.put
+      operationId: UserController.put3334
       parameters:
         - in: path
           name: id
@@ -80,9 +80,11 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
-          description: Successful response
-      summary: Put
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserBody"
+          description: ""
+      summary: Put 3334
       tags:
         - User
     delete:
