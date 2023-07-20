@@ -1,15 +1,7 @@
-import {
-    Body,
-    Controller, Example,
-    Get,
-    Path,
-    Post,
-    Query,
-    Route,
-    SuccessResponse,
-} from "tsoa";
-import { User } from "./user";
-import { UsersService, UserCreationParams } from "./userService";
+import {Body, Controller, Example, Get, Path, Post, Query, Route, Security, SuccessResponse,} from "tsoa";
+import {User} from "./user";
+import {UserCreationParams, UsersService} from "./userService";
+import {AuthScope, AuthSecurity} from "./authentication";
 
 @Route("users")
 export class UsersController extends Controller {
@@ -32,12 +24,12 @@ export class UsersController extends Controller {
     }
 
     @SuccessResponse("201", "Created") // Custom success response
+    @Security(AuthSecurity.Jwt, [AuthScope.Admin])
     @Post()
     public async createUser(
         @Body() requestBody: UserCreationParams
-    ): Promise<void> {
+    ): Promise<User> {
         this.setStatus(201); // set return status 201
-        new UsersService().create(requestBody);
-        return;
+        return new UsersService().create(requestBody);
     }
 }

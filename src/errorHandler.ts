@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {ValidateError} from "@tsoa/runtime";
+import {JsonWebTokenError} from "jsonwebtoken";
 
 interface ExRequest extends Request {
 
@@ -21,6 +22,13 @@ export const globalErrorHandler = function(
     res: ExResponse,
     next: NextFunction
 ): ExResponse | void {
+    if (err instanceof JsonWebTokenError) {
+        console.warn(`JWT Error for ${req.path}:`, err.message);
+        return res.status(401).json({
+            message: "JWT Error",
+            details: err.message,
+        });
+    }
     if (err instanceof ValidateError) {
         console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
         return res.status(422).json({
